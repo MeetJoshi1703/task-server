@@ -16,6 +16,15 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
+
+app.get('/api/health', (req, res) => {
+  res.status(200).json({
+    status: 'ok',
+    message: 'Server is healthy',
+    timestamp: new Date().toISOString()
+  });
+});
+
 app.use('/api/auth', authRoutes);
 app.use('/api/boards', boardRoutes);
 app.use('/api/columns', columnRoutes);
