@@ -194,11 +194,9 @@ const getAllTasks = async (req, res, next) => {
   }
 };
 
-
 const getTasksByColumn = async (req, res, next) => {
   try {
     const { columnId } = req.params;
-    const userId = req.user.id;
 
     const { data: tasks, error } = await supabase
       .from('tasks')
@@ -213,16 +211,18 @@ const getTasksByColumn = async (req, res, next) => {
         )
       `)
       .eq('column_id', columnId)
-      .eq('column_id', columnId, 'columns.board_id', 'board_members.user_id', userId)
       .order('position', { ascending: true });
 
     if (error) throw new Error(error.message);
+
+    console.log(tasks)
 
     res.status(200).json({ message: 'Tasks retrieved successfully', tasks });
   } catch (error) {
     next({ message: error.message, statusCode: 500 });
   }
 };
+
 
 const getTaskById = async (req, res, next) => {
   try {
